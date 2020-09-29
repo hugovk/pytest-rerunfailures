@@ -7,6 +7,8 @@ Changelog
 Backwards incompatible changes
 ++++++++++++++++++++++++++++++
 
+- Drop support for pytest version 5.0 and 5.1.
+
 - Drop support for Python 3.5.
 
 
