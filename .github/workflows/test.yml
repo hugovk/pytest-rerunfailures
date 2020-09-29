@@ -26,6 +26,9 @@ jobs:
             "6.0.2",
             "6.1.0",
         ]
+        include:
+          - { python-version: "3.8", pytest-version: "latest" }
+          - { python-version: "3.8", pytest-version: "master" }
     steps:
       - uses: actions/checkout@v2
 
@@ -51,7 +54,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install -U pip
-          python -m pip install pytest==${{ matrix.pytest-version }}
+          if [[ "${{ matrix.pytest-version }}" == "latest" ]]
+          then
+            python -m pip install -q pytest -U --pre
+          elif [[ "${{ matrix.pytest-version }}" == "master" ]]
+          then
+            python -m pip install -q git+https://github.com/pytest-dev/pytest
+          else
+            python -m pip install pytest==${{ matrix.pytest-version }}
+          fi
           python -m pip install -e .
 
       - name: Tests
